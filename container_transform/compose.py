@@ -93,7 +93,7 @@ class ComposeTransformer(BaseTransformer):
         output = {
             'protocol': protocol
         }
-        mapping = str(mapping).rstrip('/udp')
+        mapping = str(mapping).rstrip('/tcudp') # /tcp, /udp
         parts = str(mapping).split(':')
         if len(parts) == 1:
             output.update({
@@ -217,6 +217,24 @@ class ComposeTransformer(BaseTransformer):
         for key, value in environment.items():
             environment[key] = str(value).replace('$', '$$')
         return environment
+
+    def ingest_secrets(self, secrets):
+        output = {}
+        if type(secrets) is list:
+            for kv in secrets:
+                index = kv.find('=')
+                output[str(kv[:index])] = str(kv[index + 1:]).replace('$$', '$')
+        if type(secrets) is dict:
+            for key, value in secrets.items():
+                output[str(key)] = str(value).replace('$$', '$')
+        return output
+
+    def emit_secrets(self, secrets):
+        # Use double-dollar and avoid vairable substitution. Reference,
+        # https://docs.docker.com/compose/compose-file/compose-file-v2
+        for key, value in secrets.items():
+            secrets[key] = str(value).replace('$', '$$')
+        return secrets
 
     def ingest_command(self, command):
         if isinstance(command, list):

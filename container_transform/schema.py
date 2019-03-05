@@ -217,6 +217,32 @@ ARG_MAP = OrderedDict({
             'required': False,
         },
     },
+    'secrets': {
+        TransformationTypes.ECS.value: {
+            'name': 'secrets',
+            'required': False,
+        },
+        TransformationTypes.COMPOSE.value: {
+            'name': 'secrets',
+            'required': False,
+        },
+        TransformationTypes.SYSTEMD.value: {
+            'name': None,
+            'required': False,
+        },
+        TransformationTypes.MARATHON.value: {
+            'name': None,
+            'required': False,
+        },
+        TransformationTypes.CHRONOS.value: {
+            'name': None,
+            'required': False,
+        },
+        TransformationTypes.KUBERNETES.value: {
+            'name': None,
+            'required': False,
+        },
+    },
     'entrypoint': {
         TransformationTypes.ECS.value: {
             'name': 'entryPoint',
