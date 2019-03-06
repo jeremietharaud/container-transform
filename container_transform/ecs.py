@@ -190,7 +190,7 @@ class ECSTransformer(BaseTransformer):
     def ingest_secrets(self, secrets):
         output = {}
         for kv in secrets:
-            output[kv['name']] = kv['value']
+            output[kv['name']] = kv['valueFrom']
         return output
 
     def emit_secrets(self, secrets):

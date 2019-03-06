@@ -24,3 +24,17 @@ class MarathonTransformerTests(TestCase):
                 {'uri': 'hdfs://hdfs.marathon.mesos/path/item.json'}
             ]
         )
+
+    def test_ingest_secrets(self):
+        secrets = []
+        self.assertEqual(
+            self.transformer.ingest_secrets(secrets),
+            None
+        )
+
+    def test_emit_secrets(self):
+        secrets = []
+        self.assertEqual(
+            self.transformer.emit_secrets(secrets),
+            None
+        )

@@ -256,7 +256,7 @@ class BaseTransformer(object, metaclass=ABCMeta):
     @abstractmethod
     def emit_secrets(self, secrets):
         raise NotImplementedError
-    
+
     @abstractmethod
     def ingest_command(self, command):
         raise NotImplementedError

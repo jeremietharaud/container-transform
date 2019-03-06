@@ -133,6 +133,20 @@ class ComposeTransformerTests(TestCase):
             environment_exp
         )
 
+    def test_ingest_secrets(self):
+        secrets = {
+            'DB_PAS': 'po$$tgres',
+            'DB_USER': 'postgres'
+        }
+        secrets_exp = {
+            'DB_PAS': 'po$tgres',
+            'DB_USER': 'postgres'
+        }
+        self.assertEqual(
+            self.transformer.ingest_secrets(secrets),
+            secrets_exp
+        )
+
     def test_emit_environment(self):
         environment = {
             'DB_PAS': 'po$tgres',
@@ -145,6 +159,20 @@ class ComposeTransformerTests(TestCase):
         self.assertEqual(
             self.transformer.emit_environment(environment),
             environment_exp
+        )
+
+    def test_emit_secrets(self):
+        secrets = {
+            'DB_PAS': 'po$tgres',
+            'DB_USER': 'postgres'
+        }
+        secrets_exp = {
+            'DB_PAS': 'po$$tgres',
+            'DB_USER': 'postgres'
+        }
+        self.assertEqual(
+            self.transformer.emit_secrets(secrets),
+            secrets_exp
         )
 
     def test_ingest_command_list(self):

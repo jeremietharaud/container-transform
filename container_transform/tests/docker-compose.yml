@@ -8,9 +8,10 @@ worker:
     - AWS_EC2_REGION=us-east-1
     - BROKER_URL=redis://redis:6379/0
     - DB_HOST=db
-    - DB_NAME=postgres
-    - DB_PAS=po$$tgres
+    - DB_NAME=po$$tgres
+  secrets:
     - DB_USER=postgres
+    - DB_PAS=po$$tgres
   links:
   - db
   - redis
@@ -32,8 +33,9 @@ web:
     BROKER_URL: redis://redis:6379/0
     DB_HOST: db
     DB_NAME: postgres
-    DB_PASS: postgres
     DB_USER: postgres
+  secrets:
+    DB_PASS: postgres
   links:
   - db
   - redis

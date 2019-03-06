@@ -93,7 +93,7 @@ class ComposeTransformer(BaseTransformer):
         output = {
             'protocol': protocol
         }
-        mapping = str(mapping).rstrip('/tcudp') # /tcp, /udp
+        mapping = str(mapping).rstrip('/tcudp')  # /tcp, /udp
         parts = str(mapping).split(':')
         if len(parts) == 1:
             output.update({

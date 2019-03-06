@@ -295,6 +295,12 @@ class ChronosTransformer(BaseTransformer):
         sorted_by_value = sorted(environ, key=lambda p: p.get('value'))
         return sorted(sorted_by_value, key=lambda p: p.get('name'))
 
+    def ingest_secrets(self, secrets):
+        pass
+
+    def emit_secrets(self, secrets):
+        pass
+
     def ingest_command(self, command):
         return self._list2cmdline(command)
 

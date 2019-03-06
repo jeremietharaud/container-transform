@@ -91,6 +91,20 @@ class SystemdTransformerTests(TestCase):
     def test_emit_environment(self):
         self.assertEqual(self.transformer.emit_memory('1024'), '1024b')
 
+    def test_ingest_secrets(self):
+        secrets = []
+        self.assertEqual(
+            self.transformer.ingest_secrets(secrets),
+            None
+        )
+
+    def test_emit_secrets(self):
+        secrets = []
+        self.assertEqual(
+            self.transformer.emit_secrets(secrets),
+            None
+        )
+
     def test_emit_volumes(self):
         volumes = [
             {'host': '/path', 'container': '/path', 'readonly': True},

@@ -121,10 +121,6 @@
             ],
             "environment": [
                 {
-                    "name": "AWS_SECRET_ACCESS_KEY",
-                    "value": "1111111111111111111111111111111111111111"
-                },
-                {
                     "name": "BROKER_URL",
                     "value": "redis://redis:6379/0"
                 },
@@ -151,6 +147,12 @@
                 {
                     "name": "DB_NAME",
                     "value": "postgres"
+                }
+            ],
+            "secrets": [
+                {
+                    "name": "AWS_SECRET_ACCESS_KEY",
+                    "valueFrom": "1111111111111111111111111111111111111111"
                 }
             ],
             "name": "web",
