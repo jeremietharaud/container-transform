@@ -21,7 +21,7 @@ SCHEMA = {
         'name': str,
     }],
     'environment': dict,  # A simple key: value dictionary
-    'secrets': dict,  # A simple key: value dictionary
+    'secrets': list,  # A list of secrets
     'entrypoint': str,  # An unsplit string
     'command': str,  # An unsplit string
     'volumes_from': list,  # A list of containers

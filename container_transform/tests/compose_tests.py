@@ -134,10 +134,11 @@ class ComposeTransformerTests(TestCase):
         )
 
     def test_ingest_secrets(self):
-        secrets = {
-            'DB_PAS': 'po$$tgres',
-            'DB_USER': 'postgres'
-        }
+        secrets = [
+            'DB_PAS',
+            'DB_USER',
+            'EXTERNAL_SECRET'
+        ]
         secrets_exp = {
             'DB_PAS': 'po$tgres',
             'DB_USER': 'postgres'

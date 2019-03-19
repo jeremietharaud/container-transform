@@ -35,6 +35,7 @@ class ComposeTransformer(BaseTransformer):
                 self.stream = stream.get('services')
                 self.volumes = stream.get('volumes', None)
                 self.networks = stream.get('networks', None)
+                self.secrets = stream.get('secrets', None)
             else:
                 self.stream = stream
         else:
@@ -221,12 +222,10 @@ class ComposeTransformer(BaseTransformer):
     def ingest_secrets(self, secrets):
         output = {}
         if type(secrets) is list:
-            for kv in secrets:
-                index = kv.find('=')
-                output[str(kv[:index])] = str(kv[index + 1:]).replace('$$', '$')
-        if type(secrets) is dict:
-            for key, value in secrets.items():
-                output[str(key)] = str(value).replace('$$', '$')
+            for key in secrets:
+                if self.secrets.get(key).get('file'):
+                    value = open(self.secrets.get(key).get('file'), "r").read()
+                    output[str(key)] = str(value).replace('$$', '$')
         return output
 
     def emit_secrets(self, secrets):
