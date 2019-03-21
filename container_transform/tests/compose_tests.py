@@ -148,6 +148,24 @@ class ComposeTransformerTests(TestCase):
             secrets_exp
         )
 
+    def test_ingest_secrets_error_file_not_found(self):
+        secrets = {
+            'DOESNOTEXIST': 'abc'
+        }
+        self.assertEqual(
+            self.transformer.ingest_secrets(secrets),
+            {}
+        )
+
+    def test_ingest_secrets_error_key_not_exist(self):
+        secrets = {
+            'UNKNOWN': 'abc'
+        }
+        self.assertEqual(
+            self.transformer.ingest_secrets(secrets),
+            {}
+        )
+
     def test_emit_environment(self):
         environment = {
             'DB_PAS': 'po$tgres',

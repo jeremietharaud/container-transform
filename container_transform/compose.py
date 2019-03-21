@@ -5,6 +5,8 @@ import yaml
 
 from .transformer import BaseTransformer
 
+import sys
+
 
 class ComposeTransformer(BaseTransformer):
     """
@@ -223,9 +225,17 @@ class ComposeTransformer(BaseTransformer):
         output = {}
         if type(secrets) is list:
             for key in secrets:
-                if self.secrets.get(key).get('file'):
-                    value = open(self.secrets.get(key).get('file'), "r").read()
-                    output[str(key)] = str(value).replace('$$', '$')
+                try:
+                    if self.secrets.get(key).get('file'):
+                        try:
+                            value = open(self.secrets.get(key).get('file'), "r").read()
+                            output[str(key)] = str(value).replace('$$', '$')
+                        except FileNotFoundError:
+                            print('File not found: ', self.secrets.get(key).get('file'))
+                            sys.exit(1)
+                except AttributeError:
+                    print('Key is missing in secrets section: ', key)
+                    sys.exit(1)
         return output
 
     def emit_secrets(self, secrets):

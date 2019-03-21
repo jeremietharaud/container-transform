@@ -37,6 +37,7 @@ services:
       DB_NAME: postgres
       DB_USER: postgres
     secrets:
+      DB_USER
       DB_PAS
     links:
     - db
@@ -90,6 +91,8 @@ secrets:
     file: ./container_transform/tests/DB_USER.txt
   DB_PAS:
     file: ./container_transform/tests/DB_PAS.txt
+  DOESNOTEXIST:
+    file: ./container_transform/tests/DOESNOTEXIST.txt
   EXTERNAL_SECRET:
     external:
       name: EXTERNAL_SECRET
