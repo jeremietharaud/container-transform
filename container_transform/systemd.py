@@ -141,6 +141,12 @@ class SystemdTransformer(BaseTransformer):
     def emit_environment(self, environment):
         return environment
 
+    def ingest_secrets(self, secrets):
+        pass
+
+    def emit_secrets(self, secrets):
+        pass
+
     def ingest_command(self, command):
         pass
 

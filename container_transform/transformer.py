@@ -21,6 +21,7 @@ SCHEMA = {
         'name': str,
     }],
     'environment': dict,  # A simple key: value dictionary
+    'secrets': list,  # A list of secrets
     'entrypoint': str,  # An unsplit string
     'command': str,  # An unsplit string
     'volumes_from': list,  # A list of containers
@@ -246,6 +247,14 @@ class BaseTransformer(object, metaclass=ABCMeta):
 
     @abstractmethod
     def emit_environment(self, environment):
+        raise NotImplementedError
+
+    @abstractmethod
+    def ingest_secrets(self, secrets):
+        raise NotImplementedError
+
+    @abstractmethod
+    def emit_secrets(self, secrets):
         raise NotImplementedError
 
     @abstractmethod

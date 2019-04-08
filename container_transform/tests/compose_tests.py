@@ -133,6 +133,39 @@ class ComposeTransformerTests(TestCase):
             environment_exp
         )
 
+    def test_ingest_secrets(self):
+        secrets = [
+            'DB_PAS',
+            'DB_USER',
+            'EXTERNAL_SECRET'
+        ]
+        secrets_exp = {
+            'DB_PAS': 'po$tgres',
+            'DB_USER': 'postgres'
+        }
+        self.assertEqual(
+            self.transformer.ingest_secrets(secrets),
+            secrets_exp
+        )
+
+    def test_ingest_secrets_error_file_not_found(self):
+        secrets = {
+            'DOESNOTEXIST': 'abc'
+        }
+        self.assertEqual(
+            self.transformer.ingest_secrets(secrets),
+            {}
+        )
+
+    def test_ingest_secrets_error_key_not_exist(self):
+        secrets = {
+            'UNKNOWN': 'abc'
+        }
+        self.assertEqual(
+            self.transformer.ingest_secrets(secrets),
+            {}
+        )
+
     def test_emit_environment(self):
         environment = {
             'DB_PAS': 'po$tgres',
@@ -145,6 +178,20 @@ class ComposeTransformerTests(TestCase):
         self.assertEqual(
             self.transformer.emit_environment(environment),
             environment_exp
+        )
+
+    def test_emit_secrets(self):
+        secrets = {
+            'DB_PAS': 'po$tgres',
+            'DB_USER': 'postgres'
+        }
+        secrets_exp = {
+            'DB_PAS': 'po$$tgres',
+            'DB_USER': 'postgres'
+        }
+        self.assertEqual(
+            self.transformer.emit_secrets(secrets),
+            secrets_exp
         )
 
     def test_ingest_command_list(self):

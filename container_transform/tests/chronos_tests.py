@@ -82,6 +82,20 @@ class ChronosTransformerTests(TestCase):
             }
         )
 
+    def test_ingest_secrets(self):
+        secrets = []
+        self.assertEqual(
+            self.transformer.ingest_secrets(secrets),
+            None
+        )
+
+    def test_emit_secrets(self):
+        secrets = []
+        self.assertEqual(
+            self.transformer.emit_secrets(secrets),
+            None
+        )
+
     def test_emit_environment(self):
         environment = {
             'CT_INPUT_TYPE': 'compose',

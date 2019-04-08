@@ -187,6 +187,18 @@ class ECSTransformer(BaseTransformer):
             output.append({'name': k, 'value': v})
         return output
 
+    def ingest_secrets(self, secrets):
+        output = {}
+        for kv in secrets:
+            output[kv['name']] = kv['valueFrom']
+        return output
+
+    def emit_secrets(self, secrets):
+        output = []
+        for k, v in secrets.items():
+            output.append({'name': k, 'valueFrom': v})
+        return output
+
     def ingest_command(self, command):
         return self._list2cmdline(command)
 

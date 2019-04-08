@@ -5,6 +5,8 @@ import yaml
 
 from .transformer import BaseTransformer
 
+import sys
+
 
 class ComposeTransformer(BaseTransformer):
     """
@@ -35,6 +37,7 @@ class ComposeTransformer(BaseTransformer):
                 self.stream = stream.get('services')
                 self.volumes = stream.get('volumes', None)
                 self.networks = stream.get('networks', None)
+                self.secrets = stream.get('secrets', None)
             else:
                 self.stream = stream
         else:
@@ -93,7 +96,7 @@ class ComposeTransformer(BaseTransformer):
         output = {
             'protocol': protocol
         }
-        mapping = str(mapping).rstrip('/udp')
+        mapping = str(mapping).rstrip('/tcudp')  # /tcp, /udp
         parts = str(mapping).split(':')
         if len(parts) == 1:
             output.update({
@@ -217,6 +220,30 @@ class ComposeTransformer(BaseTransformer):
         for key, value in environment.items():
             environment[key] = str(value).replace('$', '$$')
         return environment
+
+    def ingest_secrets(self, secrets):
+        output = {}
+        if type(secrets) is list:
+            for key in secrets:
+                try:
+                    if self.secrets.get(key).get('file'):
+                        try:
+                            value = open(self.secrets.get(key).get('file'), "r").read()
+                            output[str(key)] = str(value).replace('$$', '$')
+                        except FileNotFoundError:
+                            print('File not found: ', self.secrets.get(key).get('file'))
+                            sys.exit(1)
+                except AttributeError:
+                    print('Key is missing in secrets section: ', key)
+                    sys.exit(1)
+        return output
+
+    def emit_secrets(self, secrets):
+        # Use double-dollar and avoid vairable substitution. Reference,
+        # https://docs.docker.com/compose/compose-file/compose-file-v2
+        for key, value in secrets.items():
+            secrets[key] = str(value).replace('$', '$$')
+        return secrets
 
     def ingest_command(self, command):
         if isinstance(command, list):
